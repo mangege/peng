@@ -15,6 +15,18 @@ class User < ActiveRecord::Base
     base_role.to_s == role
   end
 
+  def admin?
+    role == 'admin'
+  end
+
+  def guest?
+    role == 'guest'
+  end
+
+  def employee?
+    role == 'employee'
+  end
+
   def self.authenticate(username, password)
     user = self.find_by_username(username)
     if user and user.password != password

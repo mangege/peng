@@ -1,16 +1,19 @@
 <div class="block">
   <div class="secondary-navigation">
     <ul class="wat-cf">
-      <li class="first active"><%= link_to "列表", :action => :list_admin  %></li>
+      <li class="first"><%= link_to "汇总", :action => :list_summary %></li>
+      <li class="active"><%= link_to "列表", :action => :list_admin %></li>
     </ul>
   </div>
   <div class="content">
     <h2 class="title"><%= "#{@current_date.year}年#{@current_date.month}月 #{Store.find(@store_id).name}  营业额数据" %></h2>
     <%= form_tag({:action => :list_admin}, :method => "get") do %>
-    <div style="margin-left: 15px;margin-bottom:10px;">门店: <%= select_tag(:store_id,options_for_select(select_store_all_admin,@store_id)) %>
-    日期: <%= select_year(@current_date) %>年
-      <%= select_month(@current_date, :use_month_numbers => true) %>月 <%= submit_tag "查询"  %> <% if session[:current_user].role? :admin %> <%= submit_tag "导出"  %>  <% end %>
-    </div>
+        <div style="margin-left: 15px;margin-bottom:10px;">门店: <%= select_tag(:store_id, options_for_select(select_store_all_admin, @store_id)) %>
+          日期: <%= select_year(@current_date) %>年
+          <%= select_month(@current_date, :use_month_numbers => true) %>月 <%= submit_tag "查询" %>
+          <% if session[:current_user].role? :admin %> <%= submit_tag "导出" %>
+          <% end %>
+        </div>
     <% end %>
     <div class="inner">
       <table class="table">
@@ -21,43 +24,41 @@
           <th>K 金</th>
           <th>Pt</th>
           <th>黄 金</th>
+          <th>其 它</th>
           <th>类 型</th>
           <th>当天总额</th>
           <th class="last"></th>
         </tr>
         <% @sales.each do |sale| -%>
-        <tr class="<%= cycle("odd", "even") %>">
-          <td><%= sale.id %></td>
-          <td><%= sale.sale_time %></td>
-          <td><%= sale.inlay %></td>
-          <td><%= sale.kgold %></td>
-          <td><%= sale.pt %></td>
-          <td><%= sale.gold %></td>
-          <td><%= get_type sale.sale_type %></td>
-          <td>
-            <%= sale.day %>
-          </td>
-          <td class="last">
-            <%= link_to '查看', sale %> |
-            <%= link_to '编辑', edit_sale_path(sale) %> |
-            <%= link_to '删除', sale, :confirm => '确认删除吗?', :method => :delete %>
-          </td>
-        </tr>
+            <tr class="<%= cycle("odd", "even") %>">
+              <td><%= sale.id %></td>
+              <td><%= sale.sale_time %></td>
+              <td><%= sale.inlay %></td>
+              <td><%= sale.kgold %></td>
+              <td><%= sale.pt %></td>
+              <td><%= sale.gold %></td>
+              <td><%= sale.other %></td>
+              <td><%= get_type sale.sale_type %></td>
+              <td>
+                <%= sale.day %>
+              </td>
+              <td class="last">
+                <%= link_to '查看', sale %> |
+                <%= link_to '编辑', edit_sale_path(sale) %> |
+                <%= link_to '删除', sale, :confirm => '确认删除吗?', :method => :delete %>
+              </td>
+            </tr>
         <% end -%>
-        <% if @sales.size > 0 %>
-        <tr>
-          <td colspan="9" align="right"><strong> 总共:<%= @sales.length %> 条  |  外销:<%= @sales.select{|s|s.sale_type == 1}.length %> 条  |  内销:<%= @sales.select{|s|s.sale_type == 2}.length %> 条
-            ----  外销统计: 镶嵌 <%= @inlay_sum.to_i %>  |  Pt <%= @pt_sum.to_i %>  |  黄金 <%= @gold_sum.to_i %>  |  K金 <%= @kgold_sum.to_i%>  |  总计 <%= @month_sum.to_i %>
-            ----  内销统计: 镶嵌 <%= @inlay_sum2.to_i %>  |  Pt <%= @pt_sum2.to_i %>  |  黄金 <%=@gold_sum2.to_i %>  |  K金 <%= @kgold_sum2.to_i %>  |  总计 <%= @month_sum2.to_i %></strong></td>
-        </tr>
-        <% else %>
-          <td colspan="9" align="center"><strong>没有数据</strong></td>
-        <% end %>
       </table>
-      <div class="actions-bar wat-cf">
-        <div class="actions">
-        </div>
-
+      <div class="actions-bar wat-cf" style="text-align:right;">
+        <% if !@sales.blank? %>
+        总共:<%= @sales.length %> 条 | 外销:<%= @sales.select { |s| s.sale_type == 1 }.length %> 条 |
+        内销:<%= @sales.select { |s| s.sale_type == 2 }.length %> 条 <br/>
+         外销统计: 镶嵌 <%= @inlay_sum.to_i %>  | Pt <%= @pt_sum.to_i %>  | 黄金 <%= @gold_sum.to_i %>  |
+        K金 <%= @kgold_sum.to_i %>  | 其它 <%= @other_sum.to_i %>  | 总计 <%= @month_sum.to_i %> <br/>
+         内销统计: 镶嵌 <%= @inlay_sum2.to_i %>  | Pt <%= @pt_sum2.to_i %>  | 黄金 <%= @gold_sum2.to_i %>  |
+        K金 <%= @kgold_sum2.to_i %>  | 其它 <%= @other_sum2.to_i %>   | 总计 <%= @month_sum2.to_i %>
+        <% end %>
       </div>
     </div>
   </div>

@@ -27,11 +27,11 @@ class Ability
     if user.role? :admin
       can :manage, Store
       can :manage, User
-      can [:read,:update,:destroy,:list_admin], Sale
+      can [:read, :update, :destroy, :list_admin, :list_summary], Sale
     elsif user.role? :employee
-      can [:create,:read,:list_month], Sale
+      can [:create, :read, :list_month], Sale
     elsif user.role? :guest
-      can [:list_admin],Sale
+      can [:list_admin, :list_summary], Sale
     end
   end
 end

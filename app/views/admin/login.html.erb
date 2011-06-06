@@ -1,18 +1,42 @@
-<%= flash[:notice] %>
-<%= form_tag do %>
-    <div>
-    <table>
-      <tr>
-        <td><%= label_tag(:username, "用户名:") %></td>
-        <td><%= text_field_tag(:username,params[:username]) %></td>
-      </tr>
-      <tr>
-        <td><%= label_tag(:password,"密  码:") %></td>
-        <td><%= password_field_tag(:password) %></td>
-      </tr>
-      <tr>
-        <td align="center" colspan="2"><%= submit_tag :登陆 %></td>
-      </tr>
-    </table>
+<div id="box">
+  <h1 align="center">周大生 - 湖南办</h1>
+
+  <div class="block" id="block-login">
+    <h2>后台登陆</h2>
+
+    <div class="content login">
+      <% unless flash.blank? %>
+          <div class="flash">
+            <div class="message warning">
+              <p><%= flash[:notice] %></p>
+            </div>
+          </div>
+      <% end %>
+      <%= form_tag "", :class => "form login" do %>
+          <div class="group wat-cf">
+            <div class="left">
+              <%= label_tag(:username, "用户名:", :class => "label right") %>
+            </div>
+            <div class="right">
+              <%= text_field_tag(:username, params[:username], :class => "text_field") %>
+            </div>
+          </div>
+          <div class="group wat-cf">
+            <div class="left">
+              <%= label_tag(:password, "密  码:", :class => "label right") %>
+            </div>
+            <div class="right">
+              <%= password_field_tag(:password,"", :class => "text_field") %>
+            </div>
+          </div>
+          <div class="group navform wat-cf">
+            <div class="right">
+              <button class="button" type="submit">
+                <img src="/images/web-app-theme/icons/key.png" alt="Save"> 登陆
+              </button>
+            </div>
+          </div>
+      <% end %>
     </div>
-<% end %>
+  </div>
+</div>

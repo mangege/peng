@@ -1,0 +1,85 @@
+<% content_for :head do %>
+    <style type="text/css">
+        .table th {
+            text-align: center;
+        }
+
+        .table td {
+            border-left: 1px solid #EAEAEA;
+            text-align: center;
+        }
+    </style>
+<% end %>
+
+<div class="block">
+  <div class="secondary-navigation">
+    <ul class="wat-cf">
+      <li class="first active"><%= link_to "汇总", :action => :list_summary %></li>
+      <li><%= link_to "列表", :action => :list_admin %></li>
+    </ul>
+  </div>
+  <div class="content">
+    <h2 class="title"><%= @current_date %>  汇总</h2>
+    <%= form_tag({:action => :list_summary}, :method => "get") do %>
+        <div style="margin-left: 15px;margin-bottom:10px;">
+          日期: <%= select_date(@current_date, :use_month_numbers => true) %> <%= submit_tag "查询" %>
+          <% if current_user.admin? %> <%= submit_tag "导出" %>
+          <% end %>
+        </div>
+    <% end %>
+    <div class="inner">
+      <table class="table">
+        <tr>
+          <th>&nbsp;</th>
+          <th>&nbsp;</th>
+          <th>镶 嵌</th>
+          <th>K 金</th>
+          <th>Pt</th>
+          <th>黄 金</th>
+          <th>其 它</th>
+          <th>合 计</th>
+          <th>内销合计</th>
+        </tr>
+
+        <% for store in @stores %>
+            <tr class="<%= cyc = cycle("odd", "even") %>">
+              <td rowspan="3"><%= store.name %></td>
+              <td>当日合计</td><% sum_days = @sum_days.find{|item| item.store_id == store.id} %>
+              <td><%= sum_days.try :inlay  %></td>
+              <td><%= sum_days.try :kgold %></td>
+              <td><%= sum_days.try :pt %></td>
+              <td><%= sum_days.try :gold %></td>
+              <td><%= sum_days.try :other %></td>
+              <td><%= sum_days.try :day %></td>
+              <td><%= @sum_days2.find{|item| item.store_id == store.id}.try :day %></td>
+            </tr>
+            <tr class="<%= cyc %>">
+              <td>当月累计</td><% sum_months = @sum_months.find{|item| item.store_id == store.id} %>
+              <td><%= sum_months.try :inlay  %></td>
+              <td><%= sum_months.try :kgold %></td>
+              <td><%= sum_months.try :pt %></td>
+              <td><%= sum_months.try :gold %></td>
+              <td><%= sum_months.try :other %></td>
+              <td><%= sum_months.try :day %></td>
+              <td><%= @sum_months2.find{|item| item.store_id == store.id}.try :day %></td>
+            </tr>
+            <tr class="<%= cyc %>">
+              <td>当年累计</td><% sum_years = @sum_years.find{|item| item.store_id == store.id} %>
+              <td><%= sum_years.try :inlay  %></td>
+              <td><%= sum_years.try :kgold %></td>
+              <td><%= sum_years.try :pt %></td>
+              <td><%= sum_years.try :gold %></td>
+              <td><%= sum_years.try :other %></td>
+              <td><%= sum_years.try :day %></td>
+              <td><%= @sum_years2.find{|item| item.store_id == store.id}.try :day %></td>
+            </tr>
+        <% end %>
+
+
+      </table>
+      <div class="actions-bar wat-cf" style="text-align:right;">
+
+      </div>
+    </div>
+  </div>
+</div>
