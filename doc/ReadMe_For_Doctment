@@ -1,0 +1,49 @@
+Hello
+
+门店
+ 添加
+ 修改
+ 删除 (删除后营业数据就孤立了,禁用)
+
+用户
+ 添加
+ 修改密码
+ 删除 (禁用)
+ 登陆
+
+销售数据
+  添加
+  修改
+  统计
+
+
+
+  <div class="field">
+    <%= f.label :store %><br />
+    <%= f.text_field :store %>
+  </div>
+  <div class="field">
+    <%= f.label :user %><br />
+    <%= f.text_field :user %>
+  </div>
+
+
+  <div class="field">
+    <%= f.label :day %><br />
+    <%= f.text_field :day %>
+  </div>
+
+雇员
+  登陆,注销
+  添加营业数据
+  查看当月营业数据,还有上个月营业数据
+
+经理
+  登陆,注销
+  查看每月营业数据,统计报表导出
+
+管理员
+  登陆,注销
+  门店 CRUD
+  用户 CRUD
+  营业额 RUD ,统计报表导出

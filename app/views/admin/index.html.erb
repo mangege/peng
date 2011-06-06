@@ -1,0 +1,15 @@
+<div class="block">
+    <div class="secondary-navigation">
+    <ul class="wat-cf">
+      <li class="first active"><%=link_to "首页",:controller => "admin",:action => "index" %></li>
+    </ul>
+  </div>
+  <div class="content">
+    <h2 class="title">欢迎光临</h2>
+    <div class="inner">
+        Hello Kitty.
+    </div>
+  </div>
+</div>
+
+<% content_for :sidebar, render(:partial => 'sidebar') -%>
