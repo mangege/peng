@@ -44,7 +44,6 @@ class SalesController < ApplicationController
   # POST /sales.xml
   def create
     @sale = Sale.new(params[:sale])
-    @sale.day= (@sale.inlay + @sale.pt + @sale.gold + @sale.kgold) if !@sale.inlay.nil? and !@sale.pt.nil? and !@sale.gold.nil? and !@sale.kgold.nil?
 
     respond_to do |format|
       if @current_user.role? :employee
@@ -70,7 +69,6 @@ class SalesController < ApplicationController
   # PUT /sales/1.xml
   def update
     @sale = Sale.find(params[:id])
-    @sale.day= (@sale.inlay + @sale.pt + @sale.gold + @sale.kgold) if !@sale.inlay.nil? and !@sale.pt.nil? and !@sale.gold.nil? and !@sale.kgold.nil?
 
     respond_to do |format|
       if @sale.update_attributes(params[:sale])
