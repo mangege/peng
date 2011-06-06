@@ -13,4 +13,8 @@ module ApplicationHelper
       end
     end
   end
+
+  def current_user
+    session[:current_user] || User.new
+  end
 end

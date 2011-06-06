@@ -31,9 +31,10 @@ class AdminController < ApplicationController
   def init_admin
     admin_user = User.find_by_username("admin");
     if admin_user.nil?
-      admin_user = User.create(:username => "admin", :password => "admin", :role => "admin")
+      password = rand.to_s[2..-1]
+      admin_user = User.create(:username => "admin", :password => password, :role => "admin")
       admin_user.save()
-      render :text => "添加成功"
+      render :text => "添加成功,密码为 #{password}"
     else
       render :text => "管理员已经存在"
     end

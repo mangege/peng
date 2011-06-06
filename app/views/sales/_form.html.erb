@@ -35,6 +35,12 @@
   </div>
 
   <div class="group">
+    <%= f.label :other, "其它", :class => :label %>
+    <%= f.text_field :other, :class => 'text_field' %>
+    <span class="description">营业额</span>
+  </div>
+
+  <div class="group">
 <% if session[:current_user].role? :admin %>
     <%= f.label :sale_time, "日期", :class => :label %>
     <%= f.date_select :sale_time, :class => 'date_select', :use_month_numbers => true, :disabled => true %>

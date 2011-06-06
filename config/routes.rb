@@ -1,18 +1,19 @@
 Peng::Application.routes.draw do
-  get "sales/list_admin"
-
-  get "sales/list_month"
 
   get "admin/index"
-
   get "admin/login"
   post "admin/login"
-
   get "admin/logout"
 
   get "admin/init_admin"
 
-  resources :sales
+  resources :sales do
+    collection do
+      get "list_admin"
+      get "list_month"
+      get "list_summary"
+    end
+  end
 
   resources :users
 
