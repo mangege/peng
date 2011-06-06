@@ -17,27 +17,23 @@
       <table class="table">
         <tr>
           <th class="first">ID</th>
+          <th>日 期</th>
           <th>镶 嵌</th>
+          <th>K 金</th>
           <th>Pt</th>
           <th>黄 金</th>
-          <th>K 金</th>
           <th>类 型</th>
-          <th>日 期</th>
           <th class="last">当天总额</th>
         </tr>
         <% @sales.each do |sale| -%>
         <tr class="<%= cycle("odd", "even") %>">
-          <td>
-            <%= sale.id %>
-          </td>
-          <td>
-            <%= sale.inlay %>
-          </td>
+          <td><%= sale.id %></td>
+          <td><%= sale.sale_time %></td>
+          <td><%= sale.inlay %></td>
+          <td><%= sale.kgold %></td>
           <td><%= sale.pt %></td>
           <td><%= sale.gold %></td>
-          <td><%= sale.kgold %></td>
           <td><%= get_type sale.sale_type %></td>
-          <td><%= sale.sale_time %></td>
           <td class="last">
             <%= sale.day %>
           </td>
@@ -52,5 +48,3 @@
     </div>
   </div>
 </div>
-
-<% content_for :sidebar, render(:partial => 'sidebar') -%>
