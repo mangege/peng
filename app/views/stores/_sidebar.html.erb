@@ -1,0 +1,19 @@
+<div class="block notice">
+  <h3>欢迎光临</h3>
+  <div class="content">
+    <% if session[:current_user].role? :admin %>
+    <p>非特殊原因,尽量不要执行删除操作,以防数据混乱.</p>
+    <% elsif session[:current_user].role? :employee %>
+    <p>每种类型的数据每天只能录入一条,如录入错误,请联系管理员帮忙修改.</p>
+    <% elsif session[:current_user].role? :guest %>
+    <p>导出销售数据EXCEL时,请选择正确的门店与要导出的数据日期.</p>
+    <% end %>
+  </div>
+</div>
+<div class="block">
+  <h3>友情链接</h3>
+  <ul class="navigation">
+    <li><a href="http://www.rubyonrails.org/">Ruby on Rails</a></li>
+    <li><a href="http://cxh116.iteye.com/">ManGege's Blog</a></li>
+  </ul>
+</div>

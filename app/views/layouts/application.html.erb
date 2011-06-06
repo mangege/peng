@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>周大生-湖南办</title>
+  <%= stylesheet_link_tag "web-app-theme/base", "web-app-theme/themes/default/style", "web-app-theme/override", :cache => true %>
+  <%= javascript_include_tag :defaults, :cache => true %>
+  <%= csrf_meta_tag %>
+</head>
+<body>
+  <div id="container">
+    <div id="header">
+      <h1><a href="/">周大生-湖南办</a></h1>
+      <div id="user-navigation">
+        <ul class="wat-cf">
+          <li><%= link_to "注销", {:controller => "admin", :action => "logout"}, :class=>"logout" %></li>
+        </ul>
+      </div>
+      <div id="main-navigation">
+        <ul class="wat-cf">
+          <li><%= link_to "后台首页",:controller => "admin",:action => "index" %></li>
+          <% if session[:current_user].role? :admin %>
+<li><%= link_to "门店管理",:controller => "stores",:action => "index" %></li>
+<li><%= link_to "用户管理",:controller => "users",:action => "index" %></li>
+<li><%= link_to "销售报表",:controller => "sales",:action => "list_admin" %></li>
+          <% elsif session[:current_user].role? :employee %>
+<li><%= link_to "添加销售数据",:controller => "sales",:action => "new" %></li>
+<li><%= link_to "查看销售数据",:controller => "sales",:action => "list_month" %></li>
+          <% elsif session[:current_user].role? :guest %>
+<li><%= link_to "销售报表",:controller => "sales",:action => "list_admin" %></li>
+          <% end %>
+        </ul>
+      </div>
+    </div>    
+    <div id="wrapper" class="wat-cf">
+      <div class="flash">
+        <% add_errors_to_flash_now %>
+        <% flash.each do |type, message| -%>
+          <div class="message <%= type %>">
+            <% if message.instance_of? Array %>
+                <% message.each do |msg| %>
+            <p><%= msg %></p>
+                <% end %>
+            <% else %>
+            <p><%= message %></p>
+            <% end %>
+          </div>
+        <% end -%>
+      </div>
+      <div id="main">
+        <%= yield %>
+        <div id="footer">
+          <div class="block">
+            <p>Powered by Ruby on Rails &nbsp;--&nbsp; Development by ManGege</p>
+          </div>      
+        </div>
+      </div>
+      <div id="sidebar">
+        <%= yield :sidebar %>
+      </div>
+    </div>    
+  </div>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<div class="block">
+  <div class="secondary-navigation">
+    <ul class="wat-cf">
+      <li class="first active"><%= link_to "列表", stores_path  %></li>
+      <li><%= link_to "添加", new_store_path %></li>
+    </ul>
+  </div>          
+  <div class="content">          
+    <h2 class="title">所有门店</h2>
+    <div class="inner">
+      <table class="table">
+        <tr>             
+          <th class="first">ID</th>
+                    <th>
+            店铺名
+          </th>
+                    <th>添加时间</th>
+          <th class="last">&nbsp;</th>
+        </tr>
+        <% @stores.each do |store| -%>
+        <tr class="<%= cycle("odd", "even") %>">
+          <td>
+            <%= store.id %>
+          </td>
+                    <td>
+            <%= link_to store.name, store_path(store) %>
+          </td>
+                    <td>
+            <%= store.created_at %>
+          </td>
+          <td class="last">
+            <%= link_to "查看", store_path(store) %> |
+            <%= link_to "编辑", edit_store_path(store) %> |
+            <%= link_to "删除", store_path(store), :method => :delete, :confirm => "确认删除吗?" %>
+          </td>
+        </tr>          
+        <% end -%>
+      </table>
+      <div class="actions-bar wat-cf">
+        <div class="actions">
+        </div>
+        
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+<% content_for :sidebar, render(:partial => 'sidebar') -%>

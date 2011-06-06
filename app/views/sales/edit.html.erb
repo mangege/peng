@@ -1,0 +1,18 @@
+<div class="block">
+  <div class="secondary-navigation">
+    <ul class="wat-cf">
+      <li class="first"><%= link_to "列表", :action => :list_admin  %></li>
+      <li class="active"><%= link_to "编辑", edit_sale_path %></li>
+    </ul>
+  </div>          
+  <div class="content">            
+    <h2 class="title">编辑营销额</h2>
+    <div class="inner">
+      <%= form_for @sale, :url => sale_path(@sale), :html => { :class => :form } do |f| -%>
+        <%= render :partial => "form", :locals => {:f => f} %>
+      <% end -%>
+    </div>
+  </div>
+</div>
+
+<% content_for :sidebar, render(:partial => 'sidebar') -%>

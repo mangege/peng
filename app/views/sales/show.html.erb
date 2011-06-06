@@ -1,0 +1,63 @@
+<div class="block">
+  <div class="secondary-navigation">
+    <ul class="wat-cf">
+      <li class="first"><%= link_to "列表", :action => :list_admin  %></li>
+      <li class="active"><%= link_to "查看", sale_path %></li>
+    </ul>
+  </div>          
+  <div class="content">
+    <div class="inner">
+      
+        <p>
+          <b>类型:</b>
+          <%= Sale::SALE_TYPE.rassoc(@sale.sale_type)[0] %>
+        </p>
+
+        <p>
+          <b>镶 嵌:</b>
+          <%= @sale.inlay %>
+        </p>
+
+        <p>
+          <b>Pt:</b>
+          <%= @sale.pt %>
+        </p>
+
+        <p>
+          <b>黄 金:</b>
+          <%= @sale.gold %>
+        </p>
+
+        <p>
+          <b>K 金:</b>
+          <%= @sale.kgold %>
+        </p>
+
+        <p>
+          <b>当天总计:</b>
+          <%= @sale.day %>
+        </p>
+
+        <p>
+          <b>销售时间:</b>
+          <%= @sale.sale_time %>
+        </p>
+
+        <p>
+          <b>门店:</b>
+          <%= @sale.store.name %>
+        </p>
+
+        <p>
+          <b>用户:</b>
+          <%= @sale.user.username %>
+        </p>
+      <div class="wat-cf">
+        <%= link_to image_tag("web-app-theme/icons/application_edit.png", :alt => "编辑") + " " + "编辑", edit_sale_path(@sale), :class => "button" %>
+        <%= link_to image_tag("web-app-theme/icons/cross.png", :alt => "删除") + " " + "删除", sale_path(@sale), :method => "delete", :class => "button", :confirm => "确认删除吗?" %>
+      </div>      
+    </div>
+  </div>
+</div>
+
+<% content_for :sidebar, render(:partial => 'sidebar') -%>

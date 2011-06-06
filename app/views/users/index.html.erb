@@ -1,0 +1,52 @@
+<div class="block">
+  <div class="secondary-navigation">
+    <ul class="wat-cf">
+      <li class="first active"><%= link_to "列表", users_path  %></li>
+      <li><%= link_to "添加", new_user_path %></li>
+    </ul>
+  </div>          
+  <div class="content">          
+    <h2 class="title">所有用户</h2>
+    <div class="inner">
+      <table class="table">
+        <tr>             
+          <th class="first">ID</th>
+                    <th>名称</th>
+          <th>角色</th>
+          <th>门店</th>
+                    <th>添加时间</th>
+          <th class="last">&nbsp;</th>
+        </tr>
+        <% @users.each do |user| -%>
+        <tr class="<%= cycle("odd", "even") %>">
+          <td>
+            <%= user.id %>
+          </td>
+                    <td>
+            <%= link_to user.username, user_path(user) %>
+          </td>
+          <td><%= get_role user.role %></td>
+          <td><%= user.store.name unless user.store.nil? %></td>
+                    <td>
+            <%= user.created_at %>
+          </td>
+          <td class="last">
+            <%= link_to "查看", user_path(user) %> |
+            <%= link_to "编辑", edit_user_path(user) %> |
+            <%= link_to "删除", user_path(user), :method => :delete, :confirm => "确认删除吗?" %>
+          </td>
+        </tr>          
+        <% end -%>
+      </table>
+      <div class="actions-bar wat-cf">
+        <div class="actions">
+        </div>
+        
+
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+<% content_for :sidebar, render(:partial => 'sidebar') -%>

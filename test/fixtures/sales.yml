@@ -1,0 +1,23 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  type: 1
+  inlay: 1.5
+  pt: 1.5
+  gold: 1.5
+  kgold: 1.5
+  day: 1.5
+  sale_time: 2011-03-28 21:12:04
+  store: 
+  user: 
+
+two:
+  type: 1
+  inlay: 1.5
+  pt: 1.5
+  gold: 1.5
+  kgold: 1.5
+  day: 1.5
+  sale_time: 2011-03-28 21:12:04
+  store: 
+  user: 
