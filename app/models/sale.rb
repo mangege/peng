@@ -9,6 +9,13 @@ class Sale < ActiveRecord::Base
   validate :valid_sale_time
   validate :valid_data_uni, :on => :create
 
+  before_save :sum_day
+
+  protected
+  def sum_day
+    self.day = self.inlay + self.pt + self.gold + self.kgold
+  end
+
   private
   def valid_sale_time
     if sale_time > Date.current || sale_time < (Date.current - 31)
@@ -21,4 +28,5 @@ class Sale < ActiveRecord::Base
       errors.add_to_base "每个店铺每种数据类型每天只能录入一条"
     end
   end
+
 end
