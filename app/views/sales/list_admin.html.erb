@@ -25,6 +25,8 @@
           <th>Pt</th>
           <th>黄 金</th>
           <th>其 它</th>
+          <th>黄金旧料</th>
+          <th>PT旧料</th>
           <th>类 型</th>
           <th>当天总额</th>
           <th class="last"></th>
@@ -38,6 +40,8 @@
               <td><%= sale.pt %></td>
               <td><%= sale.gold %></td>
               <td><%= sale.other %></td>
+              <td><%= sale.old_gold %></td>
+              <td><%= sale.old_pt %></td>
               <td><%= get_type sale.sale_type %></td>
               <td>
                 <%= sale.day %>
@@ -55,9 +59,9 @@
         总共:<%= @sales.length %> 条 | 外销:<%= @sales.select { |s| s.sale_type == 1 }.length %> 条 |
         内销:<%= @sales.select { |s| s.sale_type == 2 }.length %> 条 <br/>
          外销统计: 镶嵌 <%= @inlay_sum.to_i %>  | Pt <%= @pt_sum.to_i %>  | 黄金 <%= @gold_sum.to_i %>  |
-        K金 <%= @kgold_sum.to_i %>  | 其它 <%= @other_sum.to_i %>  | 总计 <%= @month_sum.to_i %> <br/>
+        K金 <%= @kgold_sum.to_i %>  | 其它 <%= @other_sum.to_i %> | 黄金旧料 <%= @old_gold_sum %> | Pt旧料 <%= @old_pt_sum %> | 总计 <%= @month_sum.to_i %> <br/>
          内销统计: 镶嵌 <%= @inlay_sum2.to_i %>  | Pt <%= @pt_sum2.to_i %>  | 黄金 <%= @gold_sum2.to_i %>  |
-        K金 <%= @kgold_sum2.to_i %>  | 其它 <%= @other_sum2.to_i %>   | 总计 <%= @month_sum2.to_i %>
+        K金 <%= @kgold_sum2.to_i %>  | 其它 <%= @other_sum2.to_i %>  | 黄金旧料 <%= @old_gold_sum2 %> | Pt旧料 <%= @old_pt_sum2 %>  | 总计 <%= @month_sum2.to_i %>
         <% end %>
       </div>
     </div>

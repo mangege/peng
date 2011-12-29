@@ -37,6 +37,8 @@
           <th>Pt</th>
           <th>黄 金</th>
           <th>其 它</th>
+          <th>黄金旧料</th>
+          <th>Pt旧料</th>
           <th>合 计</th>
           <th>内销合计</th>
         </tr>
@@ -45,33 +47,39 @@
             <tr class="<%= cyc = cycle("odd", "even") %>">
               <td rowspan="3"><%= store.name %></td>
               <td>当日合计</td><% sum_days = @sum_days.find{|item| item.store_id == store.id} %>
-              <td><%= sum_days.try :inlay  %></td>
-              <td><%= sum_days.try :kgold %></td>
-              <td><%= sum_days.try :pt %></td>
-              <td><%= sum_days.try :gold %></td>
-              <td><%= sum_days.try :other %></td>
-              <td><%= sum_days.try :day %></td>
-              <td><%= @sum_days2.find{|item| item.store_id == store.id}.try :day %></td>
+              <td><%= sum_days.try(:inlay).try(:round, 2) %></td>
+              <td><%= sum_days.try(:kgold).try(:round, 2)%></td>
+              <td><%= sum_days.try(:pt).try(:round, 2)%></td>
+              <td><%= sum_days.try(:gold).try(:round, 2)%></td>
+              <td><%= sum_days.try(:other).try(:round, 2)%></td>
+              <td><%= sum_days.try(:old_gold).try(:round, 2)%></td>
+              <td><%= sum_days.try(:old_pt).try(:round, 2)%></td>
+              <td><%= sum_days.try(:day).try(:round, 2)%></td>
+              <td><%= @sum_days2.find{|item| item.store_id == store.id}.try(:day).try(:round, 2)%></td>
             </tr>
             <tr class="<%= cyc %>">
               <td>当月累计</td><% sum_months = @sum_months.find{|item| item.store_id == store.id} %>
-              <td><%= sum_months.try :inlay  %></td>
-              <td><%= sum_months.try :kgold %></td>
-              <td><%= sum_months.try :pt %></td>
-              <td><%= sum_months.try :gold %></td>
-              <td><%= sum_months.try :other %></td>
-              <td><%= sum_months.try :day %></td>
-              <td><%= @sum_months2.find{|item| item.store_id == store.id}.try :day %></td>
+              <td><%= sum_months.try(:inlay).try(:round, 2) %></td>
+              <td><%= sum_months.try(:kgold).try(:round, 2)%></td>
+              <td><%= sum_months.try(:pt).try(:round, 2)%></td>
+              <td><%= sum_months.try(:gold).try(:round, 2)%></td>
+              <td><%= sum_months.try(:other).try(:round, 2)%></td>
+              <td><%= sum_months.try(:old_gold).try(:round, 2)%></td>
+              <td><%= sum_months.try(:old_pt).try(:round, 2)%></td>
+              <td><%= sum_months.try(:day).try(:round, 2)%></td>
+              <td><%= @sum_months2.find{|item| item.store_id == store.id}.try(:day).try(:round, 2)%></td>
             </tr>
             <tr class="<%= cyc %>">
               <td>当年累计</td><% sum_years = @sum_years.find{|item| item.store_id == store.id} %>
-              <td><%= sum_years.try :inlay  %></td>
-              <td><%= sum_years.try :kgold %></td>
-              <td><%= sum_years.try :pt %></td>
-              <td><%= sum_years.try :gold %></td>
-              <td><%= sum_years.try :other %></td>
-              <td><%= sum_years.try :day %></td>
-              <td><%= @sum_years2.find{|item| item.store_id == store.id}.try :day %></td>
+              <td><%= sum_years.try(:inlay).try(:round, 2) %></td>
+              <td><%= sum_years.try(:kgold).try(:round, 2)%></td>
+              <td><%= sum_years.try(:pt).try(:round, 2)%></td>
+              <td><%= sum_years.try(:gold).try(:round, 2)%></td>
+              <td><%= sum_years.try(:other).try(:round, 2)%></td>
+              <td><%= sum_years.try(:old_gold).try(:round, 2)%></td>
+              <td><%= sum_years.try(:old_pt).try(:round, 2)%></td>
+              <td><%= sum_years.try(:day).try(:round, 2)%></td>
+              <td><%= @sum_years2.find{|item| item.store_id == store.id}.try(:day).try(:round, 2)%></td>
             </tr>
         <% end %>
 

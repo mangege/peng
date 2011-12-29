@@ -135,25 +135,22 @@ class SalesController < ApplicationController
     @current_date = Date.new(params[:date][:year].to_i, params[:date][:month].to_i, params[:date][:day].to_i) unless params[:date].nil?
 
     #外销
+    str_sql_cols = "store_id AS store_id, SUM(pt) AS pt, SUM(gold) AS gold, SUM(inlay) AS inlay, SUM(kgold) AS kgold, SUM(other) AS other, SUM(old_gold) AS old_gold, SUM(old_pt) AS old_pt, SUM(day) AS day "
     @sum_days = Sale.group("store_id").where(:sale_time => @current_date, :sale_type => 1)
-    @sum_months = Sale.group("store_id").where(:sale_time => @current_date.beginning_of_month..@current_date.end_of_month, :sale_type => 1).select(
-        "store_id AS store_id, SUM(pt) AS pt, SUM(gold) AS gold, SUM(inlay) AS inlay, SUM(kgold) AS kgold, SUM(other) AS other, SUM(day) AS day ")
-    @sum_years = Sale.group("store_id").where(:sale_time => @current_date.beginning_of_year..@current_date.end_of_year, :sale_type => 1).select(
-        "store_id AS store_id, SUM(pt) AS pt, SUM(gold) AS gold, SUM(inlay) AS inlay, SUM(kgold) AS kgold, SUM(other) AS other, SUM(day) AS day ")
+    @sum_months = Sale.group("store_id").where(:sale_time => @current_date.beginning_of_month..@current_date.end_of_month, :sale_type => 1).select(str_sql_cols)
+    @sum_years = Sale.group("store_id").where(:sale_time => @current_date.beginning_of_year..@current_date.end_of_year, :sale_type => 1).select(str_sql_cols)
 
     #内销
     @sum_days2 = Sale.group("store_id").where(:sale_time => @current_date, :sale_type => 2)
-    @sum_months2 = Sale.group("store_id").where(:sale_time => @current_date.beginning_of_month..@current_date.end_of_month, :sale_type => 2).select(
-        "store_id AS store_id, SUM(pt) AS pt, SUM(gold) AS gold, SUM(inlay) AS inlay, SUM(kgold) AS kgold, SUM(other) AS other, SUM(day) AS day ")
-    @sum_years2 = Sale.group("store_id").where(:sale_time => @current_date.beginning_of_year..@current_date.end_of_year, :sale_type => 2).select(
-        "store_id AS store_id, SUM(pt) AS pt, SUM(gold) AS gold, SUM(inlay) AS inlay, SUM(kgold) AS kgold, SUM(other) AS other, SUM(day) AS day ")
+    @sum_months2 = Sale.group("store_id").where(:sale_time => @current_date.beginning_of_month..@current_date.end_of_month, :sale_type => 2).select(str_sql_cols)
+    @sum_years2 = Sale.group("store_id").where(:sale_time => @current_date.beginning_of_year..@current_date.end_of_year, :sale_type => 2).select(str_sql_cols)
 
     @stores = Store.all
   end
 
   private
   def sum_data
-    @month_sum = @inlay_sum = @pt_sum = @gold_sum = @kgold_sum = @other_sum = 0
+    @month_sum = @inlay_sum = @pt_sum = @gold_sum = @kgold_sum = @other_sum = @old_gold_sum = @old_pt_sum = 0
     msales = @sales.select { |ms| ms.sale_type == 1 } #外销
     msales.each do |msale|
       unless msale.nil?
@@ -163,11 +160,13 @@ class SalesController < ApplicationController
         @gold_sum += msale.gold
         @kgold_sum += msale.kgold
         @other_sum += msale.other
+        @old_gold_sum += msale.old_gold
+        @old_pt_sum += msale.old_pt
       end
     end
 
-    @month_sum2 = @inlay_sum2 = @pt_sum2 = @gold_sum2 = @kgold_sum2 = @other_sum2 = 0
-    msales = @sales.select { |ms| ms.sale_type == 2 } #外销
+    @month_sum2 = @inlay_sum2 = @pt_sum2 = @gold_sum2 = @kgold_sum2 = @other_sum2 = @old_gold_sum2 = @old_pt_sum2 = 0
+    msales = @sales.select { |ms| ms.sale_type == 2 } #内销
     msales.each do |msale|
       unless msale.nil?
         @month_sum2 += msale.day
@@ -176,6 +175,8 @@ class SalesController < ApplicationController
         @gold_sum2 += msale.gold
         @kgold_sum2 += msale.kgold
         @other_sum2 += msale.other
+        @old_gold_sum2 += msale.old_gold
+        @old_pt_sum2 += msale.old_pt
       end
     end
   end
@@ -190,12 +191,12 @@ class SalesController < ApplicationController
 
 #header
     sheet1.row(0).insert 0, "日期", "星期", "(#{store.name}) 店"
-    sheet1.row(1).insert 2, *['镶 嵌', 'Pt', '黄 金', 'K金', '其它', '当天合计', '本月累计']
+    sheet1.row(1).insert 2, *['镶 嵌', 'Pt', '黄 金', 'K金', '其它', '黄金旧料', 'Pt旧料','当天合计', '本月累计']
     sheet1.row(2).insert 2, *%w{营业额 营业额 营业额 营业额 营业额}
 
 #data
-    month_sum = inlay_sum = pt_sum = gold_sum = kgold_sum = other_sum = 0
-    month_sum2 = inlay_sum2 = pt_sum2 = gold_sum2 = kgold_sum2 = other_sum2 = 0
+    month_sum = inlay_sum = pt_sum = gold_sum = kgold_sum = other_sum = old_gold_sum = old_pt_sum = 0
+    month_sum2 = inlay_sum2 = pt_sum2 = gold_sum2 = kgold_sum2 = other_sum2 = old_gold_sum2 = old_pt_sum2 = 0
     (export_date.beginning_of_month.day.to_i..export_date.end_of_month.day).each do |mday|
       mdate = export_date.change(:day=>mday)
       week = ["日", "一", "二", "三", "四", "五", "六"][mdate.wday]
@@ -209,7 +210,9 @@ class SalesController < ApplicationController
         gold_sum += msale.gold
         kgold_sum += msale.kgold
         other_sum += msale.other
-        row_data.insert 2, msale.inlay, msale.pt, msale.gold, msale.kgold, msale.other, msale.day, month_sum
+        old_gold_sum += msale.old_gold
+        old_pt_sum += msale.old_pt
+        row_data.insert 2, msale.inlay, msale.pt, msale.gold, msale.kgold, msale.other, msale.old_gold, msale.old_pt, msale.day, month_sum
       end
       msale = sales_data.find { |ms| ms.sale_time == mdate and ms.sale_type == 2 } #内销
       unless msale.nil?
@@ -219,6 +222,8 @@ class SalesController < ApplicationController
         gold_sum2 += msale.gold
         kgold_sum2 += msale.kgold
         other_sum2 += msale.other
+        old_gold_sum2 += msale.old_gold
+        old_pt_sum2 += msale.old_pt
       end
 
     end
@@ -230,7 +235,9 @@ class SalesController < ApplicationController
     sheet1.row(3+export_date.end_of_month.day).insert(4, gold_sum)
     sheet1.row(3+export_date.end_of_month.day).insert(5, kgold_sum)
     sheet1.row(3+export_date.end_of_month.day).insert(6, other_sum)
-    sheet1.row(3+export_date.end_of_month.day).insert(7, month_sum)
+    sheet1.row(3+export_date.end_of_month.day).insert(7, old_gold_sum)
+    sheet1.row(3+export_date.end_of_month.day).insert(8, old_pt_sum)
+    sheet1.row(3+export_date.end_of_month.day).insert(9, month_sum)
 
     sheet1.row(4+export_date.end_of_month.day).insert(0, "内销")
     sheet1.row(4+export_date.end_of_month.day).insert(2, inlay_sum2)
@@ -238,7 +245,9 @@ class SalesController < ApplicationController
     sheet1.row(4+export_date.end_of_month.day).insert(4, gold_sum2)
     sheet1.row(4+export_date.end_of_month.day).insert(5, kgold_sum2)
     sheet1.row(4+export_date.end_of_month.day).insert(6, other_sum2)
-    sheet1.row(4+export_date.end_of_month.day).insert(7, month_sum2)
+    sheet1.row(4+export_date.end_of_month.day).insert(7, old_gold_sum2)
+    sheet1.row(4+export_date.end_of_month.day).insert(8, old_pt_sum2)
+    sheet1.row(4+export_date.end_of_month.day).insert(9, month_sum2)
 
     sheet1.row(5+export_date.end_of_month.day).insert(0, "当月累计")
     sheet1.row(5+export_date.end_of_month.day).insert(2, inlay_sum)
@@ -246,7 +255,9 @@ class SalesController < ApplicationController
     sheet1.row(5+export_date.end_of_month.day).insert(4, gold_sum)
     sheet1.row(5+export_date.end_of_month.day).insert(5, kgold_sum)
     sheet1.row(5+export_date.end_of_month.day).insert(6, other_sum)
-    sheet1.row(5+export_date.end_of_month.day).insert(7, month_sum)
+    sheet1.row(5+export_date.end_of_month.day).insert(7, old_gold_sum)
+    sheet1.row(5+export_date.end_of_month.day).insert(8, old_pt_sum)
+    sheet1.row(5+export_date.end_of_month.day).insert(9, month_sum)
 
 #format
     default_format = Spreadsheet::Format.new :align => :center #居中
@@ -268,10 +279,10 @@ class SalesController < ApplicationController
     sheet1.row(4+export_date.end_of_month.day).set_format(1, Spreadsheet::Format.new(:align => :merge))
 
     #居中销售数值
-    2.upto(7).each do |mi|
+    2.upto(9).each do |mi|
       sheet1.row(3+export_date.end_of_month.day).set_format(mi, Spreadsheet::Format.new(:weight => :bold, :align => :center))
     end
-    0.upto(7).each do |mi|
+    0.upto(9).each do |mi|
       sheet1.row(5+export_date.end_of_month.day).set_format(mi, Spreadsheet::Format.new(:weight => :bold, :align => :center))
     end
 

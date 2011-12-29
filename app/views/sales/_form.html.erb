@@ -41,6 +41,17 @@
   </div>
 
   <div class="group">
+    <%= f.label :old_gold, "黄金旧料", :class => :label %>
+    <%= f.text_field :old_gold, :class => 'text_field' %>
+    <span class="description">营业额</span>
+  </div>
+  <div class="group">
+    <%= f.label :old_pt, "铂金旧料", :class => :label %>
+    <%= f.text_field :old_pt, :class => 'text_field' %>
+    <span class="description">营业额</span>
+  </div>
+
+  <div class="group">
 <% if session[:current_user].role? :admin %>
     <%= f.label :sale_time, "日期", :class => :label %>
     <%= f.date_select :sale_time, :class => 'date_select', :use_month_numbers => true, :disabled => true %>

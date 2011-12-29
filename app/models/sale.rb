@@ -5,7 +5,7 @@ class Sale < ActiveRecord::Base
 
   SALE_TYPE = [["外销",1],["内销",2]]
 
-  validates_numericality_of :inlay,:pt,:gold,:kgold, :other,:message => "营业额不能为空且要大于或等于0的数字,支持小数", :greater_than_or_equal_to => 0
+  validates_numericality_of :inlay,:pt,:gold,:kgold, :other, :old_gold, :old_pt, :message => "营业额不能为空且要大于或等于0的数字,支持小数", :greater_than_or_equal_to => 0
   validate :valid_sale_time
   validate :valid_data_uni, :on => :create
 
@@ -13,7 +13,7 @@ class Sale < ActiveRecord::Base
 
   protected
   def sum_day
-    self.day = self.inlay + self.pt + self.gold + self.kgold + self.other
+    self.day = self.inlay + self.pt + self.gold + self.kgold + self.other + self.old_gold + self.old_pt
   end
 
   private
