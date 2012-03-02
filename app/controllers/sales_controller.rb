@@ -293,7 +293,7 @@ class SalesController < ApplicationController
     sheet1.column(0).width=5.25
     sheet1.column(1).width=5.25
 
-    filename = "#{Dir.tmpdir}/#{export_date.to_s[0..-4]}_#{store.name}_#{rand(1000)}_export.xls"
+    filename = "#{Rails.root}/tmp/#{export_date.to_s[0..-4]}_#{store.name}_#{rand(1000)}_export.xls"
     book.write filename
     filename
   end
