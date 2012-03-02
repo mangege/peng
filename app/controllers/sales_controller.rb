@@ -136,12 +136,12 @@ class SalesController < ApplicationController
 
     #外销
     str_sql_cols = "store_id AS store_id, SUM(pt) AS pt, SUM(gold) AS gold, SUM(inlay) AS inlay, SUM(kgold) AS kgold, SUM(other) AS other, SUM(old_gold) AS old_gold, SUM(old_pt) AS old_pt, SUM(day) AS day "
-    @sum_days = Sale.group("store_id").where(:sale_time => @current_date, :sale_type => 1)
+    @sum_days = Sale.group("store_id").where(:sale_time => @current_date, :sale_type => 1).select(str_sql_cols)
     @sum_months = Sale.group("store_id").where(:sale_time => @current_date.beginning_of_month..@current_date.end_of_month, :sale_type => 1).select(str_sql_cols)
     @sum_years = Sale.group("store_id").where(:sale_time => @current_date.beginning_of_year..@current_date.end_of_year, :sale_type => 1).select(str_sql_cols)
 
     #内销
-    @sum_days2 = Sale.group("store_id").where(:sale_time => @current_date, :sale_type => 2)
+    @sum_days2 = Sale.group("store_id").where(:sale_time => @current_date, :sale_type => 2).select(str_sql_cols)
     @sum_months2 = Sale.group("store_id").where(:sale_time => @current_date.beginning_of_month..@current_date.end_of_month, :sale_type => 2).select(str_sql_cols)
     @sum_years2 = Sale.group("store_id").where(:sale_time => @current_date.beginning_of_year..@current_date.end_of_year, :sale_type => 2).select(str_sql_cols)
 
