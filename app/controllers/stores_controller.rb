@@ -45,7 +45,7 @@ class StoresController < ApplicationController
 
     respond_to do |format|
       if @store.save
-        format.html { redirect_to(@store, :notice => 'Store was successfully created.') }
+        format.html { redirect_to(store_path(@store), :notice => 'Store was successfully created.') }
         format.xml  { render :xml => @store, :status => :created, :location => @store }
       else
         format.html { render :action => "new" }
@@ -61,7 +61,7 @@ class StoresController < ApplicationController
 
     respond_to do |format|
       if @store.update_attributes(params[:store])
-        format.html { redirect_to(@store, :notice => 'Store was successfully updated.') }
+        format.html { redirect_to(store_path(@store), :notice => 'Store was successfully updated.') }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -77,7 +77,7 @@ class StoresController < ApplicationController
     @store.destroy
 
     respond_to do |format|
-      format.html { redirect_to(stores_url) }
+      format.html { redirect_to(stores_path) }
       format.xml  { head :ok }
     end
   end

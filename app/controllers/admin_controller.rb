@@ -3,13 +3,13 @@ class AdminController < ApplicationController
 
   def login
     unless session[:current_user].nil?
-      return redirect_to(:action => "index")
+      return redirect_to(index_path)
     end
     if request.post?
       user = User.authenticate(params[:username], params[:password])
       if user
         session[:current_user] = user
-        redirect_to(:action => "index")
+        redirect_to(index_path)
       else
         flash.now[:notice]="登陆失败"
         render :layout=>"sign"
@@ -22,7 +22,7 @@ class AdminController < ApplicationController
 
   def logout
     session.clear
-    redirect_to(:action => "login")
+    redirect_to(login_path)
   end
 
   def index

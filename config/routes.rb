@@ -1,9 +1,8 @@
 Peng::Application.routes.draw do
 
-  get "admin/index"
-  get "admin/login"
-  post "admin/login"
-  get "admin/logout"
+  get "admin/index", :as => 'index'
+  match "admin/login", :as => 'login'
+  get "admin/logout", :as => 'logout'
 
   get "admin/init_admin"
 

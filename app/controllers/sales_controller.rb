@@ -50,7 +50,7 @@ class SalesController < ApplicationController
         @sale.user = @current_user
         @sale.store_id = @current_user.store_id
         if @sale.save
-          format.html { redirect_to({:action => :list_month}, :notice => '添加成功') }
+          format.html { redirect_to(list_month_sales_path, :notice => '添加成功') }
           format.xml { render :xml => @sale, :status => :created, :location => @sale }
         else
           format.html { render :action => "new" }
@@ -72,7 +72,7 @@ class SalesController < ApplicationController
 
     respond_to do |format|
       if @sale.update_attributes(params[:sale])
-        format.html { redirect_to(@sale, :notice => '更新成功.') }
+        format.html { redirect_to(sale_path(@sale), :notice => '更新成功.') }
         format.xml { head :ok }
       else
         format.html { render :action => "edit" }
@@ -88,7 +88,7 @@ class SalesController < ApplicationController
     @sale.destroy
 
     respond_to do |format|
-      format.html { redirect_to(:action => :list_admin) }
+      format.html { redirect_to(list_admin_sales_path) }
       format.xml { head :ok }
     end
   end
