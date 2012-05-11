@@ -1,5 +1,5 @@
 GEM
-  remote: http://rubygems.org/
+  remote: http://ruby.taobao.org/
   specs:
     abstract (1.0.0)
     actionmailer (3.0.10)
@@ -43,7 +43,6 @@ GEM
     mime-types (1.17.2)
     mysql2 (0.2.6)
     mysql2 (0.2.6-x86-mingw32)
-    pg (0.13.2)
     polyglot (0.3.3)
     rack (1.2.4)
     rack-mount (0.6.14)
@@ -85,7 +84,6 @@ PLATFORMS
 DEPENDENCIES
   cancan
   mysql2
-  pg
   rails (= 3.0.10)
   spreadsheet
   web-app-theme (>= 0.6.2)
