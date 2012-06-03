@@ -195,8 +195,8 @@ class SalesController < ApplicationController
 
 #header
     sheet1.row(0).insert 0, "日期", "星期", "(#{store.name}) 店"
-    sheet1.row(1).insert 2, *['镶 嵌', 'Pt', '黄 金', 'K金', '其它', '黄金旧料', 'Pt旧料','当天合计', '本月累计']
-    sheet1.row(2).insert 2, *%w{营业额 营业额 营业额 营业额 营业额}
+    sheet1.row(1).insert 2, *['镶 嵌', 'Pt', '黄 金', 'K金', '其它', '合计', '黄金旧料', 'Pt旧料', '旧料合计','当天合计', '本月累计']
+    sheet1.row(2).insert 2, *%w{营业额 营业额 营业额 营业额 营业额 营业额 营业额 营业额 营业额}
 
 #data
     month_sum = inlay_sum = pt_sum = gold_sum = kgold_sum = other_sum = old_gold_sum = old_pt_sum = 0
@@ -216,7 +216,7 @@ class SalesController < ApplicationController
         other_sum += msale.other
         old_gold_sum += msale.old_gold
         old_pt_sum += msale.old_pt
-        row_data.insert 2, msale.inlay, msale.pt, msale.gold, msale.kgold, msale.other, msale.old_gold, msale.old_pt, msale.day, month_sum
+        row_data.insert 2, msale.inlay, msale.pt, msale.gold, msale.kgold, msale.other, (msale.inlay + msale.pt + msale.gold + msale.kgold + msale.other), msale.old_gold, msale.old_pt, (msale.old_gold + msale.old_pt), msale.day, month_sum
       end
       msale = sales_data.find { |ms| ms.sale_time == mdate and ms.sale_type == 2 } #内销
       unless msale.nil?
@@ -239,9 +239,11 @@ class SalesController < ApplicationController
     sheet1.row(3+export_date.end_of_month.day).insert(4, gold_sum)
     sheet1.row(3+export_date.end_of_month.day).insert(5, kgold_sum)
     sheet1.row(3+export_date.end_of_month.day).insert(6, other_sum)
-    sheet1.row(3+export_date.end_of_month.day).insert(7, old_gold_sum)
-    sheet1.row(3+export_date.end_of_month.day).insert(8, old_pt_sum)
-    sheet1.row(3+export_date.end_of_month.day).insert(9, month_sum)
+    sheet1.row(3+export_date.end_of_month.day).insert(7, inlay_sum + pt_sum + gold_sum + kgold_sum + other_sum)
+    sheet1.row(3+export_date.end_of_month.day).insert(8, old_gold_sum)
+    sheet1.row(3+export_date.end_of_month.day).insert(9, old_pt_sum)
+    sheet1.row(3+export_date.end_of_month.day).insert(10, old_gold_sum + old_pt_sum)
+    sheet1.row(3+export_date.end_of_month.day).insert(11, month_sum)
 
     sheet1.row(4+export_date.end_of_month.day).insert(0, "内销")
     sheet1.row(4+export_date.end_of_month.day).insert(2, inlay_sum2)
@@ -249,9 +251,11 @@ class SalesController < ApplicationController
     sheet1.row(4+export_date.end_of_month.day).insert(4, gold_sum2)
     sheet1.row(4+export_date.end_of_month.day).insert(5, kgold_sum2)
     sheet1.row(4+export_date.end_of_month.day).insert(6, other_sum2)
-    sheet1.row(4+export_date.end_of_month.day).insert(7, old_gold_sum2)
-    sheet1.row(4+export_date.end_of_month.day).insert(8, old_pt_sum2)
-    sheet1.row(4+export_date.end_of_month.day).insert(9, month_sum2)
+    sheet1.row(4+export_date.end_of_month.day).insert(7, inlay_sum2 + pt_sum2 + gold_sum2 + kgold_sum2 + other_sum2)
+    sheet1.row(4+export_date.end_of_month.day).insert(8, old_gold_sum2)
+    sheet1.row(4+export_date.end_of_month.day).insert(9, old_pt_sum2)
+    sheet1.row(4+export_date.end_of_month.day).insert(10, old_gold_sum2 + old_pt_sum2)
+    sheet1.row(4+export_date.end_of_month.day).insert(11, month_sum2)
 
     sheet1.row(5+export_date.end_of_month.day).insert(0, "当月累计")
     sheet1.row(5+export_date.end_of_month.day).insert(2, inlay_sum)
@@ -259,9 +263,11 @@ class SalesController < ApplicationController
     sheet1.row(5+export_date.end_of_month.day).insert(4, gold_sum)
     sheet1.row(5+export_date.end_of_month.day).insert(5, kgold_sum)
     sheet1.row(5+export_date.end_of_month.day).insert(6, other_sum)
-    sheet1.row(5+export_date.end_of_month.day).insert(7, old_gold_sum)
-    sheet1.row(5+export_date.end_of_month.day).insert(8, old_pt_sum)
-    sheet1.row(5+export_date.end_of_month.day).insert(9, month_sum)
+    sheet1.row(5+export_date.end_of_month.day).insert(7, inlay_sum + pt_sum + gold_sum + kgold_sum + other_sum)
+    sheet1.row(5+export_date.end_of_month.day).insert(8, old_gold_sum)
+    sheet1.row(5+export_date.end_of_month.day).insert(9, old_pt_sum)
+    sheet1.row(5+export_date.end_of_month.day).insert(10, old_gold_sum + old_pt_sum)
+    sheet1.row(5+export_date.end_of_month.day).insert(11, month_sum)
 
 #format
     default_format = Spreadsheet::Format.new :align => :center #居中
