@@ -164,6 +164,8 @@ class SalesController < ApplicationController
         @old_pt_sum += msale.old_pt
       end
     end
+    @new_material_month_sum = @inlay_sum + @pt_sum + @gold_sum + @kgold_sum + @other_sum
+    @old_material_month_sum = @old_gold_sum + @old_pt_sum
 
     @month_sum2 = @inlay_sum2 = @pt_sum2 = @gold_sum2 = @kgold_sum2 = @other_sum2 = @old_gold_sum2 = @old_pt_sum2 = 0
     msales = @sales.select { |ms| ms.sale_type == 2 } #内销
@@ -179,6 +181,8 @@ class SalesController < ApplicationController
         @old_pt_sum2 += msale.old_pt
       end
     end
+    @new_material_month_sum2 = @inlay_sum2 + @pt_sum2 + @gold_sum2 + @kgold_sum2 + @other_sum2
+    @old_material_month_sum2 = @old_gold_sum2 + @old_pt_sum2
   end
 
   def export_write_data(sales_data, store, export_date)

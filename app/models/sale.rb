@@ -11,6 +11,14 @@ class Sale < ActiveRecord::Base
 
   before_save :sum_day
 
+  def new_material_sum
+    inlay + kgold + pt + gold + other
+  end
+
+  def old_material_sum
+    old_gold + old_pt
+  end
+
   protected
   def sum_day
     self.day = self.inlay + self.pt + self.gold + self.kgold + self.other + self.old_gold + self.old_pt
