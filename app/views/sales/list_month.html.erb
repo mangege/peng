@@ -15,6 +15,36 @@
     <h2 class="title"><%= "#{@current_date.year}年#{@current_date.month}月 #{@current_user.store.name} 营业额数据" %></h2>
     <div class="inner">
       <table class="table">
+       <tr>
+         <th class="first">ID</th>
+         <th>日 期</th>
+         <th>镶 嵌</th>
+         <th>K 金</th>
+         <th>Pt</th>
+         <th>黄 金</th>
+         <th>其它</th>
+         <th>黄金旧料</th>
+         <th>PT旧料</th>
+         <th>类 型</th>
+         <th class="last">当天总额</th>
+       </tr>
+       <% @sales.each do |sale| -%>
+       <tr class="<%= cycle("odd", "even") %>">
+         <td><%= sale.id %></td>
+         <td><%= sale.sale_time %></td>
+         <td><%= sale.inlay %></td>
+         <td><%= sale.kgold %></td>
+         <td><%= sale.pt %></td>
+         <td><%= sale.gold %></td>
+         <td><%= sale.other %></td>
+         <td><%= sale.old_gold %></td>
+         <td><%= sale.old_pt %></td>
+         <td><%= get_type sale.sale_type %></td>
+         <td class="last">
+           <%= sale.day %>
+         </td>
+       </tr>
+       <% end -%>
       </table>
       <div class="actions-bar wat-cf" style="text-align:right;">
         <%= render :partial => "footer_sum" %>
