@@ -1,4 +1,4 @@
-# coding: utf-8
+# -*- encoding : utf-8 -*-
 class SalesController < ApplicationController
   load_and_authorize_resource
 

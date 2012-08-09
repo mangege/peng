@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class AddOldToSales < ActiveRecord::Migration
   def self.up
     add_column :sales, :old_gold, :float

@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 module ApplicationHelper
   #添加字段验证错误消息到FLASH
   def add_errors_to_flash_now

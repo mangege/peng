@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 Peng::Application.routes.draw do
 
   get "admin/index", :as => 'index'

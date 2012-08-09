@@ -1,4 +1,4 @@
-# coding: utf-8
+# -*- encoding : utf-8 -*-
 class Sale < ActiveRecord::Base
   belongs_to :store
   belongs_to :user

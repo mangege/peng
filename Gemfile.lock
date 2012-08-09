@@ -35,6 +35,7 @@ GEM
       abstract (>= 1.0.0)
     i18n (0.5.0)
     json (1.6.3)
+    magic_encoding (0.0.2)
     mail (2.2.19)
       activesupport (>= 2.3.6)
       i18n (>= 0.4.0)
@@ -82,9 +83,10 @@ PLATFORMS
   x86-mingw32
 
 DEPENDENCIES
-  cancan
-  mysql2
-  rails (= 3.0.10)
-  spreadsheet
+  cancan (~> 1.5.0)
+  magic_encoding (~> 0.0.2)
+  mysql2 (~> 0.2.6)
+  rails (~> 3.0.10)
+  spreadsheet (~> 0.6.5.3)
   web-app-theme (>= 0.6.2)
   will_paginate (~> 3.0.pre2)

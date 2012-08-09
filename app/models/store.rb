@@ -1,4 +1,4 @@
-# coding: utf-8
+# -*- encoding : utf-8 -*-
 class Store < ActiveRecord::Base
   has_many :users
   has_many :sales

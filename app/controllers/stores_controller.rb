@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class StoresController < ApplicationController
   load_and_authorize_resource
   # GET /stores

@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class CreateSales < ActiveRecord::Migration
   def self.up
     create_table :sales do |t|

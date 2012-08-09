@@ -1,15 +1,12 @@
 source 'http://ruby.taobao.org'
 
-gem 'rails', '3.0.10'
+gem 'rails', '~> 3.0.10'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-group :development, :test do
-  gem 'mysql2'
-end
-
-gem 'cancan'
+gem 'mysql2', '~> 0.2.6'
+gem 'cancan', '~> 1.5.0'
 
 # Use unicorn as the web server
 # gem 'unicorn'
@@ -36,8 +33,9 @@ gem 'cancan'
 
 group :development, :test do
   gem 'web-app-theme', '>= 0.6.2'
+  gem "magic_encoding", "~> 0.0.2"
 end
 
 gem "will_paginate", "~> 3.0.pre2"
 
-gem "spreadsheet"
+gem "spreadsheet", '~> 0.6.5.3'

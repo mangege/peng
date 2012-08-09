@@ -1,4 +1,4 @@
-# coding: utf-8
+# -*- encoding : utf-8 -*-
 module SalesHelper
   def get_type(type_value)
     sale_type = Sale::SALE_TYPE
