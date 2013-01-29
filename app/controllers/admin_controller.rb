@@ -26,6 +26,7 @@ class AdminController < ApplicationController
   end
 
   def index
+    authorize! :read, :admin
   end
 
   def init_admin
