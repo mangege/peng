@@ -28,10 +28,10 @@ class Ability
     if user.role? :admin
       can :manage, :all
     elsif user.role? :employee
-      can :read, Symbol { |sym| sym == :admin }
+      can :read, :admin
       can [:create, :read, :list_month], Sale
     elsif user.role? :guest
-      can :read, Symbol { |sym| sym == :admin }
+      can :read, :admin
       can [:list_admin, :list_summary], Sale
     end
   end
