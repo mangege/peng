@@ -40,4 +40,4 @@ end
 gem "will_paginate", "~> 3.0.pre2"
 
 gem "spreadsheet", "~> 0.7.3"
-gem "thin", "~> 1.4.1"
+gem "thin"
