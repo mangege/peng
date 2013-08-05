@@ -34,6 +34,7 @@ gem 'cancan', '~> 1.5.0'
 group :development, :test do
   gem 'web-app-theme', '>= 0.6.2'
   gem "magic_encoding", "~> 0.0.2"
+  gem 'mina'
 end
 
 gem "will_paginate", "~> 3.0.pre2"
