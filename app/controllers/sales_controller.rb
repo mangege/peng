@@ -135,7 +135,7 @@ class SalesController < ApplicationController
     @current_date = Date.new(params[:date][:year].to_i, params[:date][:month].to_i, params[:date][:day].to_i) unless params[:date].nil?
 
     #外销
-    str_sql_cols = "store_id AS store_id, SUM(pt) AS pt, SUM(gold) AS gold, SUM(inlay) AS inlay, SUM(kgold) AS kgold, SUM(other) AS other, SUM(old_gold) AS old_gold, SUM(old_pt) AS old_pt, SUM(day) AS day "
+    str_sql_cols = "store_id AS store_id, SUM(pt) AS pt, SUM(gold) AS gold, SUM(gold_jade) AS gold_jade, SUM(color_stone) AS color_stone, SUM(inlay) AS inlay, SUM(kgold) AS kgold, SUM(other) AS other, SUM(old_gold) AS old_gold, SUM(old_pt) AS old_pt, SUM(day) AS day "
     @sum_days = Sale.group("store_id").where(:sale_time => @current_date, :sale_type => 1).select(str_sql_cols)
     @sum_months = Sale.group("store_id").where(:sale_time => @current_date.beginning_of_month..@current_date.end_of_month, :sale_type => 1).select(str_sql_cols)
     @sum_years = Sale.group("store_id").where(:sale_time => @current_date.beginning_of_year..@current_date.end_of_year, :sale_type => 1).select(str_sql_cols)
@@ -150,7 +150,7 @@ class SalesController < ApplicationController
 
   private
   def sum_data
-    @month_sum = @inlay_sum = @pt_sum = @gold_sum = @kgold_sum = @other_sum = @old_gold_sum = @old_pt_sum = 0
+    @month_sum = @inlay_sum = @pt_sum = @gold_sum = @kgold_sum = @other_sum = @old_gold_sum = @old_pt_sum  = @gold_jade_sum = @color_stone_sum = 0
     msales = @sales.select { |ms| ms.sale_type == 1 } #外销
     msales.each do |msale|
       unless msale.nil?
@@ -162,12 +162,14 @@ class SalesController < ApplicationController
         @other_sum += msale.other
         @old_gold_sum += msale.old_gold
         @old_pt_sum += msale.old_pt
+        @gold_jade_sum += msale.gold_jade
+        @color_stone_sum += msale.color_stone
       end
     end
-    @new_material_month_sum = @inlay_sum + @pt_sum + @gold_sum + @kgold_sum + @other_sum
+    @new_material_month_sum = @inlay_sum + @pt_sum + @gold_sum + @kgold_sum + @other_sum + @gold_jade_sum + @color_stone_sum
     @old_material_month_sum = @old_gold_sum + @old_pt_sum
 
-    @month_sum2 = @inlay_sum2 = @pt_sum2 = @gold_sum2 = @kgold_sum2 = @other_sum2 = @old_gold_sum2 = @old_pt_sum2 = 0
+    @month_sum2 = @inlay_sum2 = @pt_sum2 = @gold_sum2 = @kgold_sum2 = @other_sum2 = @old_gold_sum2 = @old_pt_sum2 = @gold_jade_sum2 = @color_stone_sum2 = 0
     msales = @sales.select { |ms| ms.sale_type == 2 } #内销
     msales.each do |msale|
       unless msale.nil?
@@ -179,9 +181,11 @@ class SalesController < ApplicationController
         @other_sum2 += msale.other
         @old_gold_sum2 += msale.old_gold
         @old_pt_sum2 += msale.old_pt
+        @gold_jade_sum2 += msale.gold_jade
+        @color_stone_sum2 += msale.color_stone
       end
     end
-    @new_material_month_sum2 = @inlay_sum2 + @pt_sum2 + @gold_sum2 + @kgold_sum2 + @other_sum2
+    @new_material_month_sum2 = @inlay_sum2 + @pt_sum2 + @gold_sum2 + @kgold_sum2 + @other_sum2 + @gold_jade_sum2 + @color_stone_sum2
     @old_material_month_sum2 = @old_gold_sum2 + @old_pt_sum2
   end
 
@@ -195,12 +199,12 @@ class SalesController < ApplicationController
 
 #header
     sheet1.row(0).insert 0, "日期", "星期", "(#{store.name}) 店"
-    sheet1.row(1).insert 2, *['镶 嵌', 'Pt', '黄 金', 'K金', '其它', '合计', '黄金旧料', 'Pt旧料', '旧料合计','当天合计', '本月累计']
+    sheet1.row(1).insert 2, *['镶 嵌', 'Pt', '黄 金', '金镶玉', '彩 宝', 'K金', '其它', '合计', '黄金旧料', 'Pt旧料', '旧料合计','当天合计', '本月累计']
     sheet1.row(2).insert 2, *%w{营业额 营业额 营业额 营业额 营业额 营业额 营业额 营业额 营业额}
 
 #data
-    month_sum = inlay_sum = pt_sum = gold_sum = kgold_sum = other_sum = old_gold_sum = old_pt_sum = 0
-    month_sum2 = inlay_sum2 = pt_sum2 = gold_sum2 = kgold_sum2 = other_sum2 = old_gold_sum2 = old_pt_sum2 = 0
+    month_sum = inlay_sum = pt_sum = gold_sum = kgold_sum = other_sum = old_gold_sum = old_pt_sum = gold_jade_sum = color_stone_sum = 0
+    month_sum2 = inlay_sum2 = pt_sum2 = gold_sum2 = kgold_sum2 = other_sum2 = old_gold_sum2 = old_pt_sum2 = gold_jade_sum2 = color_stone_sum2 = 0
     (export_date.beginning_of_month.day.to_i..export_date.end_of_month.day).each do |mday|
       mdate = export_date.change(:day=>mday)
       week = ["日", "一", "二", "三", "四", "五", "六"][mdate.wday]
@@ -212,11 +216,13 @@ class SalesController < ApplicationController
         inlay_sum += msale.inlay
         pt_sum += msale.pt
         gold_sum += msale.gold
+        gold_jade_sum += msale.gold_jade
+        color_stone_sum += msale.color_stone
         kgold_sum += msale.kgold
         other_sum += msale.other
         old_gold_sum += msale.old_gold
         old_pt_sum += msale.old_pt
-        row_data.insert 2, msale.inlay, msale.pt, msale.gold, msale.kgold, msale.other, (msale.inlay + msale.pt + msale.gold + msale.kgold + msale.other), msale.old_gold, msale.old_pt, (msale.old_gold + msale.old_pt), msale.day, month_sum
+        row_data.insert 2, msale.inlay, msale.pt, msale.gold, msale.gold_jade, msale.color_stone, msale.kgold, msale.other, (msale.inlay + msale.pt + msale.gold + msale.kgold + msale.other), msale.old_gold, msale.old_pt, (msale.old_gold + msale.old_pt), msale.day, month_sum
       end
       msale = sales_data.find { |ms| ms.sale_time == mdate and ms.sale_type == 2 } #内销
       unless msale.nil?
@@ -224,6 +230,8 @@ class SalesController < ApplicationController
         inlay_sum2 += msale.inlay
         pt_sum2 += msale.pt
         gold_sum2 += msale.gold
+        gold_jade_sum2 += msale.gold_jade
+        color_stone_sum2 += msale.color_stone
         kgold_sum2 += msale.kgold
         other_sum2 += msale.other
         old_gold_sum2 += msale.old_gold
@@ -232,55 +240,56 @@ class SalesController < ApplicationController
 
     end
 
-#footer
+    #footer
+    i = 1
     sheet1.row(3+export_date.end_of_month.day).insert(0, "商场合计")
-    sheet1.row(3+export_date.end_of_month.day).insert(2, inlay_sum)
-    sheet1.row(3+export_date.end_of_month.day).insert(3, pt_sum)
-    sheet1.row(3+export_date.end_of_month.day).insert(4, gold_sum)
-    sheet1.row(3+export_date.end_of_month.day).insert(5, kgold_sum)
-    sheet1.row(3+export_date.end_of_month.day).insert(6, other_sum)
-    sheet1.row(3+export_date.end_of_month.day).insert(7, inlay_sum + pt_sum + gold_sum + kgold_sum + other_sum)
-    sheet1.row(3+export_date.end_of_month.day).insert(8, old_gold_sum)
-    sheet1.row(3+export_date.end_of_month.day).insert(9, old_pt_sum)
-    sheet1.row(3+export_date.end_of_month.day).insert(10, old_gold_sum + old_pt_sum)
-    sheet1.row(3+export_date.end_of_month.day).insert(11, month_sum)
+    sheet1.row(3+export_date.end_of_month.day).insert(i+=1, inlay_sum)
+    sheet1.row(3+export_date.end_of_month.day).insert(i+=1, pt_sum)
+    sheet1.row(3+export_date.end_of_month.day).insert(i+=1, gold_sum)
+    sheet1.row(3+export_date.end_of_month.day).insert(i+=1, gold_jade_sum)
+    sheet1.row(3+export_date.end_of_month.day).insert(i+=1, color_stone_sum)
+    sheet1.row(3+export_date.end_of_month.day).insert(i+=1, kgold_sum)
+    sheet1.row(3+export_date.end_of_month.day).insert(i+=1, other_sum)
+    sheet1.row(3+export_date.end_of_month.day).insert(i+=1, inlay_sum + pt_sum + gold_sum + kgold_sum + other_sum + gold_jade_sum + color_stone_sum)
+    sheet1.row(3+export_date.end_of_month.day).insert(i+=1, old_gold_sum)
+    sheet1.row(3+export_date.end_of_month.day).insert(i+=1, old_pt_sum)
+    sheet1.row(3+export_date.end_of_month.day).insert(i+=1, old_gold_sum + old_pt_sum)
+    sheet1.row(3+export_date.end_of_month.day).insert(i+=1, month_sum)
 
+    i = 1
     sheet1.row(4+export_date.end_of_month.day).insert(0, "内销")
-    sheet1.row(4+export_date.end_of_month.day).insert(2, inlay_sum2)
-    sheet1.row(4+export_date.end_of_month.day).insert(3, pt_sum2)
-    sheet1.row(4+export_date.end_of_month.day).insert(4, gold_sum2)
-    sheet1.row(4+export_date.end_of_month.day).insert(5, kgold_sum2)
-    sheet1.row(4+export_date.end_of_month.day).insert(6, other_sum2)
-    sheet1.row(4+export_date.end_of_month.day).insert(7, inlay_sum2 + pt_sum2 + gold_sum2 + kgold_sum2 + other_sum2)
-    sheet1.row(4+export_date.end_of_month.day).insert(8, old_gold_sum2)
-    sheet1.row(4+export_date.end_of_month.day).insert(9, old_pt_sum2)
-    sheet1.row(4+export_date.end_of_month.day).insert(10, old_gold_sum2 + old_pt_sum2)
-    sheet1.row(4+export_date.end_of_month.day).insert(11, month_sum2)
+    sheet1.row(4+export_date.end_of_month.day).insert(i+=1, inlay_sum2)
+    sheet1.row(4+export_date.end_of_month.day).insert(i+=1, pt_sum2)
+    sheet1.row(4+export_date.end_of_month.day).insert(i+=1, gold_sum2)
+    sheet1.row(4+export_date.end_of_month.day).insert(i+=1, gold_jade_sum2)
+    sheet1.row(4+export_date.end_of_month.day).insert(i+=1, color_stone_sum2)
+    sheet1.row(4+export_date.end_of_month.day).insert(i+=1, kgold_sum2)
+    sheet1.row(4+export_date.end_of_month.day).insert(i+=1, other_sum2)
+    sheet1.row(4+export_date.end_of_month.day).insert(i+=1, inlay_sum2 + pt_sum2 + gold_sum2 + kgold_sum2 + other_sum2 + gold_jade_sum2 + color_stone_sum2)
+    sheet1.row(4+export_date.end_of_month.day).insert(i+=1, old_gold_sum2)
+    sheet1.row(4+export_date.end_of_month.day).insert(i+=1, old_pt_sum2)
+    sheet1.row(4+export_date.end_of_month.day).insert(i+=1, old_gold_sum2 + old_pt_sum2)
+    sheet1.row(4+export_date.end_of_month.day).insert(i+=1, month_sum2)
 
+    i = 1
     sheet1.row(5+export_date.end_of_month.day).insert(0, "当月累计")
-    sheet1.row(5+export_date.end_of_month.day).insert(2, inlay_sum)
-    sheet1.row(5+export_date.end_of_month.day).insert(3, pt_sum)
-    sheet1.row(5+export_date.end_of_month.day).insert(4, gold_sum)
-    sheet1.row(5+export_date.end_of_month.day).insert(5, kgold_sum)
-    sheet1.row(5+export_date.end_of_month.day).insert(6, other_sum)
-    sheet1.row(5+export_date.end_of_month.day).insert(7, inlay_sum + pt_sum + gold_sum + kgold_sum + other_sum)
-    sheet1.row(5+export_date.end_of_month.day).insert(8, old_gold_sum)
-    sheet1.row(5+export_date.end_of_month.day).insert(9, old_pt_sum)
-    sheet1.row(5+export_date.end_of_month.day).insert(10, old_gold_sum + old_pt_sum)
-    sheet1.row(5+export_date.end_of_month.day).insert(11, month_sum)
+    sheet1.row(5+export_date.end_of_month.day).insert(i+=1, inlay_sum)
+    sheet1.row(5+export_date.end_of_month.day).insert(i+=1, pt_sum)
+    sheet1.row(5+export_date.end_of_month.day).insert(i+=1, gold_sum)
+    sheet1.row(5+export_date.end_of_month.day).insert(i+=1, gold_jade_sum)
+    sheet1.row(5+export_date.end_of_month.day).insert(i+=1, color_stone_sum)
+    sheet1.row(5+export_date.end_of_month.day).insert(i+=1, kgold_sum)
+    sheet1.row(5+export_date.end_of_month.day).insert(i+=1, other_sum)
+    sheet1.row(5+export_date.end_of_month.day).insert(i+=1, inlay_sum + pt_sum + gold_sum + kgold_sum + other_sum + gold_jade_sum +  color_stone_sum2)
+    sheet1.row(5+export_date.end_of_month.day).insert(i+=1, old_gold_sum)
+    sheet1.row(5+export_date.end_of_month.day).insert(i+=1, old_pt_sum)
+    sheet1.row(5+export_date.end_of_month.day).insert(i+=1, old_gold_sum + old_pt_sum)
+    sheet1.row(5+export_date.end_of_month.day).insert(i+=1, month_sum)
 
 #format
     default_format = Spreadsheet::Format.new :align => :center #居中
 
     sheet1.default_format=default_format
-
-    (2..5).each do |mi|
-      sheet1.row(0).set_format(mi, Spreadsheet::Format.new(:align => :merge, :weight => :bold, :size => 12))
-    end
-
-    (2..8).each do |mi|
-      sheet1.row(1).set_format(mi, Spreadsheet::Format.new(:weight => :bold, :align => :center))
-    end
 
     #合并 商场合计 内销表格
     sheet1.row(3+export_date.end_of_month.day).set_format(0, Spreadsheet::Format.new(:align => :merge))

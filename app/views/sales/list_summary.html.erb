@@ -23,8 +23,6 @@
     <%= form_tag({:action => :list_summary}, :method => "get") do %>
         <div style="margin-left: 15px;margin-bottom:10px;">
           日期: <%= select_date(@current_date, :use_month_numbers => true) %> <%= submit_tag "查询" %>
-          <% if current_user.admin? %> <%= submit_tag "导出" %>
-          <% end %>
         </div>
     <% end %>
     <div class="inner">
@@ -36,6 +34,8 @@
           <th>K 金</th>
           <th>Pt</th>
           <th>黄 金</th>
+          <th>金镶玉</th>
+          <th>彩 宝</th>
           <th>其 它</th>
           <th>合 计</th>
           <th>黄金旧料</th>
@@ -53,6 +53,8 @@
               <td><%= sum_days.try(:kgold).try(:round, 2)%></td>
               <td><%= sum_days.try(:pt).try(:round, 2)%></td>
               <td><%= sum_days.try(:gold).try(:round, 2)%></td>
+              <td><%= sum_days.try(:gold_jade).try(:round, 2)%></td>
+              <td><%= sum_days.try(:color_stone).try(:round, 2)%></td>
               <td><%= sum_days.try(:other).try(:round, 2)%></td>
               <td><%= (sum_days.try(:inlay).to_f + sum_days.try(:kgold).to_f + sum_days.try(:pt).to_f +  sum_days.try(:gold).to_f + sum_days.try(:other).to_f).round(2) %></td>
               <td><%= sum_days.try(:old_gold).try(:round, 2)%></td>
@@ -67,6 +69,8 @@
               <td><%= sum_months.try(:kgold).try(:round, 2)%></td>
               <td><%= sum_months.try(:pt).try(:round, 2)%></td>
               <td><%= sum_months.try(:gold).try(:round, 2)%></td>
+              <td><%= sum_months.try(:gold_jade).try(:round, 2)%></td>
+              <td><%= sum_months.try(:color_stone).try(:round, 2)%></td>
               <td><%= sum_months.try(:other).try(:round, 2)%></td>
               <td><%= (sum_months.try(:inlay).to_f + sum_months.try(:kgold).to_f + sum_months.try(:pt).to_f +  sum_months.try(:gold).to_f + sum_months.try(:other).to_f).round(2) %></td>
               <td><%= sum_months.try(:old_gold).try(:round, 2)%></td>
@@ -81,6 +85,8 @@
               <td><%= sum_years.try(:kgold).try(:round, 2)%></td>
               <td><%= sum_years.try(:pt).try(:round, 2)%></td>
               <td><%= sum_years.try(:gold).try(:round, 2)%></td>
+              <td><%= sum_years.try(:gold_jade).try(:round, 2)%></td>
+              <td><%= sum_years.try(:color_stone).try(:round, 2)%></td>
               <td><%= sum_years.try(:other).try(:round, 2)%></td>
               <td><%= (sum_years.try(:inlay).to_f + sum_years.try(:kgold).to_f + sum_years.try(:pt).to_f +  sum_years.try(:gold).to_f + sum_years.try(:other).to_f).round(2) %></td>
               <td><%= sum_years.try(:old_gold).try(:round, 2)%></td>
