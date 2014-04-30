@@ -5,3 +5,4 @@ tmp/
 *.swp
 .idea
 config/database.yml
+public/stylesheets/all.css
