@@ -37,4 +37,4 @@ end
 gem "will_paginate", "~> 3.0.pre2"
 
 gem "spreadsheet", "~> 0.7.3"
-gem "unicorn"
+gem "puma"
