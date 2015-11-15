@@ -8,9 +8,6 @@ gem 'rails', '~> 3.0.10'
 gem 'mysql2', '~> 0.2.6'
 gem 'cancan', '~> 1.5.0'
 
-# Use unicorn as the web server
-# gem 'unicorn'
-
 # Deploy with Capistrano
 # gem 'capistrano'
 
@@ -40,4 +37,4 @@ end
 gem "will_paginate", "~> 3.0.pre2"
 
 gem "spreadsheet", "~> 0.7.3"
-gem "thin"
+gem "unicorn"
