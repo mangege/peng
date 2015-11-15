@@ -3,7 +3,7 @@ worker_processes 1
 
 working_directory app_dir
 
-listen "#{app_dir}/puma.sock", :backlog => 64
+listen "#{app_dir}/tmp/puma.sock", :backlog => 64
 
 # nuke workers after 30 seconds instead of 60 seconds (the default)
 timeout 30
