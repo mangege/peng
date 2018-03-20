@@ -1,35 +1,47 @@
 
   <div class="group">
 <% if session[:current_user].role? :admin %>
-    <%= f.label :sale_type, "类 型", :class => :label %>
+    <%= f.label :sale_type, "类型", :class => :label %>
     <%= f.select :sale_type, Sale::SALE_TYPE,{}, :disabled => true %>
 <% else %>
-    <%= f.label :sale_type, "类 型", :class => :label %>
+    <%= f.label :sale_type, "类型", :class => :label %>
     <%= f.select :sale_type, Sale::SALE_TYPE %>
 <% end %>
     <span class="description">营业额类型</span>
   </div>
 
   <div class="group">
-    <%= f.label :inlay, "镶 嵌", :class => :label %>
+    <%= f.label :inlay, "钻石", :class => :label %>
     <%= f.text_field :inlay, :class => 'text_field' %>
     <span class="description">营业额</span>
   </div>
 
   <div class="group">
-    <%= f.label :pt, "Pt", :class => :label %>
+    <%= f.label :pearl, "珍珠", :class => :label %>
+    <%= f.text_field :pearl, :class => 'text_field' %>
+    <span class="description">营业额</span>
+  </div>
+
+  <div class="group">
+    <%= f.label :pt, "铂金", :class => :label %>
     <%= f.text_field :pt, :class => 'text_field' %>
     <span class="description">营业额</span>
   </div>
 
   <div class="group">
-    <%= f.label :gold, "黄 金", :class => :label %>
+    <%= f.label :hard_gold, "硬金", :class => :label %>
+    <%= f.text_field :hard_gold, :class => 'text_field' %>
+    <span class="description">营业额</span>
+  </div>
+
+  <div class="group">
+    <%= f.label :gold, "黄金", :class => :label %>
     <%= f.text_field :gold, :class => 'text_field' %>
     <span class="description">营业额</span>
   </div>
 
   <div class="group">
-    <%= f.label :kgold, "K 金", :class => :label %>
+    <%= f.label :kgold, "K金", :class => :label %>
     <%= f.text_field :kgold, :class => 'text_field' %>
     <span class="description">营业额</span>
   </div>

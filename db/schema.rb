@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140428024117) do
+ActiveRecord::Schema.define(:version => 20180320061055) do
 
   create_table "sales", :force => true do |t|
     t.integer  "sale_type"
@@ -30,6 +30,8 @@ ActiveRecord::Schema.define(:version => 20140428024117) do
     t.decimal  "old_pt",      :precision => 12, :scale => 2, :default => 0.0, :null => false
     t.decimal  "gold_jade",   :precision => 12, :scale => 2, :default => 0.0, :null => false
     t.decimal  "color_stone", :precision => 12, :scale => 2, :default => 0.0, :null => false
+    t.decimal  "pearl",       :precision => 12, :scale => 2, :default => 0.0, :null => false
+    t.decimal  "hard_gold",   :precision => 12, :scale => 2, :default => 0.0, :null => false
   end
 
   create_table "stores", :force => true do |t|

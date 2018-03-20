@@ -1,9 +1,9 @@
         <% if !@sales.blank? %>
         总共:<%= @sales.length %> 条 | 外销:<%= @sales.select { |s| s.sale_type == 1 }.length %> 条 |
         内销:<%= @sales.select { |s| s.sale_type == 2 }.length %> 条 <br/>
-        外销统计: 镶嵌 <%= @inlay_sum %>  | Pt <%= @pt_sum %>  | 黄金 <%= @gold_sum %>  | K金 <%= @kgold_sum %>  | 
+        外销统计: 钻石 <%= @inlay_sum %>  | 珍珠 <%= @pearl_sum %>  | 铂金 <%= @pt_sum %>   |  硬金 <%= @hard_gold_sum %>  | 黄金 <%= @gold_sum %>  | K金 <%= @kgold_sum %>  | 
         金镶玉 <%= @gold_jade_sum %> | 彩宝 <%= @color_stone_sum %> | 其它 <%= @other_sum %> | 合计 <%= @new_material_month_sum %> | 
-         黄金旧料 <%= @old_gold_sum %> | Pt旧料 <%= @old_pt_sum %> | 旧料合计 <%= @old_material_month_sum %> | 总计 <%= @month_sum %> <br/>
-         内销统计: 镶嵌 <%= @inlay_sum2 %>  | Pt <%= @pt_sum2 %>  | 黄金 <%= @gold_sum2 %>  |
-        K金 <%= @kgold_sum2 %>  | 金镶玉 <%= @gold_jade_sum2 %> | 彩宝 <%= @color_stone_sum2 %> | 其它 <%= @other_sum2 %> | 合计 <%= @new_material_month_sum2 %>  | 黄金旧料 <%= @old_gold_sum2 %> | Pt旧料 <%= @old_pt_sum2 %> | 旧料合计 <%= @old_material_month_sum2 %>  | 总计 <%= @month_sum2 %>
+         黄金旧料 <%= @old_gold_sum %> | 铂金旧料 <%= @old_pt_sum %> | 旧料合计 <%= @old_material_month_sum %> | 总计 <%= @month_sum %> <br/>
+         内销统计: 钻石 <%= @inlay_sum2 %>  |  珍珠 <%= @pearl_sum2 %>  | 铂金 <%= @pt_sum2 %>  |  硬金 <%= @hard_gold_sum2 %>  | 黄金 <%= @gold_sum2 %>  |
+        K金 <%= @kgold_sum2 %>  | 金镶玉 <%= @gold_jade_sum2 %> | 彩宝 <%= @color_stone_sum2 %> | 其它 <%= @other_sum2 %> | 合计 <%= @new_material_month_sum2 %>  | 黄金旧料 <%= @old_gold_sum2 %> | 铂金旧料 <%= @old_pt_sum2 %> | 旧料合计 <%= @old_material_month_sum2 %>  | 总计 <%= @month_sum2 %>
         <% end %>

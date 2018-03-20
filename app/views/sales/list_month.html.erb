@@ -18,16 +18,18 @@
        <tr>
          <th class="first">ID</th>
          <th>日 期</th>
-         <th>镶 嵌</th>
+         <th>钻石</th>
+         <th>珍珠</th>
          <th>K 金</th>
-         <th>Pt</th>
-         <th>黄 金</th>
+         <th>铂金</th>
+         <th>硬金</th>
+         <th>黄金</th>
          <th>金镶玉</th>
-         <th>彩 宝</th>
+         <th>彩宝</th>
          <th>其它</th>
          <th>黄金旧料</th>
-         <th>PT旧料</th>
-         <th>类 型</th>
+         <th>铂金旧料</th>
+         <th>类型</th>
          <th class="last">当天总额</th>
        </tr>
        <% @sales.each do |sale| -%>
@@ -35,8 +37,10 @@
          <td><%= sale.id %></td>
          <td><%= sale.sale_time %></td>
          <td><%= sale.inlay %></td>
+         <td><%= sale.pearl %></td>
          <td><%= sale.kgold %></td>
          <td><%= sale.pt %></td>
+         <td><%= sale.hard_gold %></td>
          <td><%= sale.gold %></td>
          <td><%= sale.gold_jade %></td>
          <td><%= sale.color_stone %></td>
